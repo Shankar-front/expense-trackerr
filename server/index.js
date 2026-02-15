@@ -1,33 +1,37 @@
+require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 const cors = require("cors");
-
-dotenv.config();
+const mongoose = require("mongoose");
 
 const app = express();
 
-// ✅ MIDDLEWARE (ORDER MATTERS)
 app.use(cors());
-app.use(express.json()); // ← THIS WILL NOT CRASH
+app.use(express.json());
 
-// ✅ ROUTES
+console.log("🔍 MONGO_URI FROM ENV:", process.env.MONGO_URI);
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB connected");
+    console.log("📂 Connected DB name:", mongoose.connection.name);
+    console.log("🌐 Connected host:", mongoose.connection.host);
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+    process.exit(1);
+  });
+
+// Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/transactions", require("./routes/transactions"));
 
-// ✅ BASIC TEST ROUTE (OPTIONAL)
+// Health check
 app.get("/", (req, res) => {
-  res.send("API is running");
+  res.send("Backend is running");
 });
 
-// ✅ DB CONNECTION
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err));
-
-// ✅ START SERVER
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on port ${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});

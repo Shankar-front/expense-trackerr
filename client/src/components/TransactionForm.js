@@ -35,21 +35,20 @@ export default function TransactionForm({ token, onSuccess }) {
   };
 
   return (
-  <form className="transaction-form" onSubmit={handleSubmit}>
-    <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
-    <input name="amount" type="number" placeholder="Amount" value={form.amount} onChange={handleChange} required />
-    <input name="date" type="date" value={form.date} onChange={handleChange} required />
+    <form onSubmit={handleSubmit}>
+      <input name="title" placeholder="Title" value={form.title} onChange={handleChange} required />
+      <input name="amount" type="number" placeholder="Amount" value={form.amount} onChange={handleChange} required />
+      <input name="date" type="date" value={form.date} onChange={handleChange} required />
 
-    <select name="category" value={form.category} onChange={handleChange}>
-      <option>Food</option>
-      <option>Rent</option>
-      <option>Transport</option>
-      <option>Shopping</option>
-    </select>
+      <select name="category" value={form.category} onChange={handleChange}>
+        <option>Food</option>
+        <option>Rent</option>
+        <option>Transport</option>
+        <option>Shopping</option>
+      </select>
 
-    <input name="notes" placeholder="Notes (optional)" value={form.notes} onChange={handleChange} />
-    <button type="submit">Add Transaction</button>
-  </form>
-);
-
+      <input name="notes" placeholder="Notes (optional)" value={form.notes} onChange={handleChange} />
+      <button type="submit">Add Transaction</button>
+    </form>
+  );
 }
